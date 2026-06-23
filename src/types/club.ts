@@ -4,23 +4,24 @@ export interface TransitStation {
   code: string;
   name: string;
   line: TransitLine;
+  lat: number;
+  lon: number;
 }
 
 export interface RouteData {
   id: string;
   name: string;
   startStation: TransitStation;
-  /** Distance in kilometres, e.g. "5.2" */
   distanceKm: string;
   elevationGainM?: string;
+  /** Estimated pace in min/km, e.g. "6:30" */
+  paceMinkm: string;
   endCafe: string;
   cafeArea: string;
   tags: string[];
   dayOfWeek: string;
   meetTime: string;
   stravaRouteUrl: string;
-  /** Optional: map preview image URL */
-  mapImageUrl?: string;
 }
 
 /**

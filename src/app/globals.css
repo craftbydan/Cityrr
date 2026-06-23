@@ -1,98 +1,62 @@
 @import "tailwindcss";
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   CITYRR — NYC Metro × Aesop · Phone-native
-───────────────────────────────────────────────────────────────────────────── */
-
 @theme inline {
-  --color-canvas:      #100E0C;
-  --color-surface:     #181410;
-  --color-surface-hi:  #221C17;
+  --color-bg:       #111009;
+  --color-surface:  #1A1712;
+  --color-ink:      #E8DECC;
+  --color-mid:      #7A6858;
+  --color-faint:    #3A2E22;
+  --color-rule:     #2A2018;
+  --color-amber:    #B5834A;
 
-  --color-ink:         #EAE0D0;
-  --color-ink-mid:     #7A6858;
-  --color-ink-faint:   #3E3028;
-
-  --color-amber:       #B5834A;
-  --color-rule:        #2A201A;
-  --color-rule-hi:     #3A2E26;
-
-  --font-metro: var(--font-barlow), "Arial Narrow", sans-serif;
-  --font-mono:  var(--font-jetbrains), monospace;
-
-  --club-primary: #B5834A;
-  --club-accent:  #7A6858;
+  --font-sans: var(--font-barlow), "Arial Narrow", sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* Prevent text resize on orientation change */
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background-color: var(--color-canvas);
+  background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-mono);
-  /* iOS safe area support */
+  font-size: 13px;
+  line-height: 1.5;
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Film grain */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0.055;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-}
-
-/* ── Helpers ────────────────────────────────────────────────────────────── */
-.font-metro { font-family: var(--font-metro); }
-.font-mono  { font-family: var(--font-mono); }
-
-/* Amber system label */
-.sys-label {
-  font-family: var(--font-metro);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-amber);
+/* OSM map dark invert */
+.map-frame {
+  filter: invert(1) hue-rotate(200deg) brightness(0.7) saturate(0.6);
+  width: 100%;
+  height: 200px;
+  border: none;
   display: block;
 }
 
-/* Club override root */
-.club-root {
-  background-color: var(--color-surface);
-  --club-primary-faint: color-mix(in srgb, var(--club-primary) 10%, transparent);
-}
-
-/* ── Full-width CTA — minimum 56px touch target ─────────────────────────── */
-.btn-route {
+/* CTA */
+.btn-strava {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 56px;
+  min-height: 52px;
   padding: 0 1.25rem;
-  background-color: var(--club-primary);
+  background: var(--club-primary, #B5834A);
   color: #0A0806;
-  font-family: var(--font-metro);
-  font-size: 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
   font-weight: 900;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: opacity 100ms ease;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  transition: opacity 80ms;
 }
-.btn-route.light-text { color: #EAE0D0; }
-.btn-route:active     { opacity: 0.8; }
+.btn-strava:active { opacity: 0.8; }
+.btn-strava.inv    { color: #E8DECC; }

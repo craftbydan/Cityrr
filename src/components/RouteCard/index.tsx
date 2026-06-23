@@ -1,119 +1,145 @@
-"use client";
-
 import type { ClubProfile, RouteData } from "@/types/club";
+import type { WeatherSummary } from "@/types/weather";
 
-interface RouteCardProps {
+interface Props {
   route: RouteData;
   club: ClubProfile;
-  index: number;
+  weather: WeatherSummary | null;
 }
 
-function needsLightText(hex: string): boolean {
+function darkText(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
-  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.45;
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.45;
 }
 
-export default function RouteCard({ route, club, index }: RouteCardProps) {
-  const { startStation, distanceKm, elevationGainM, endCafe, cafeArea, dayOfWeek, meetTime, stravaRouteUrl } = route;
-  const { branding } = club;
-  const primary = branding.primary;
-  const lightText = needsLightText(primary);
+function osmUrl(lat: number, lon: number) {
+  const d = 0.018;
+  return (
+    `https://www.openstreetmap.org/export/embed.html` +
+    `?bbox=${lon - d},${lat - d},${lon + d},${lat + d}&layer=mapnik`
+  );
+}
 
-  const cssVars = {
-    "--club-primary": primary,
-    "--club-accent":  branding.accent,
-  } as React.CSSProperties;
+export default function RouteCard({ route, club, weather }: Props) {
+  const { startStation: s, distanceKm, elevationGainM, paceMinkm,
+          endCafe, cafeArea, dayOfWeek, meetTime, tags, stravaRouteUrl } = route;
+  const primary = club.branding.primary;
+  const totalMin = Math.round(parseFloat(distanceKm) * parseFloat(paceMinkm.replace(":", ".")));
 
   return (
-    <article
-      className="club-root border-b"
-      style={{ ...cssVars, borderColor: "var(--color-rule)" }}
+    <section
+      style={{
+        borderBottom: "1px solid var(--color-rule)",
+        "--club-primary": primary,
+      } as React.CSSProperties}
     >
-      {/* ── Top bar: route number + transit line + club ──────────────────── */}
-      <div
-        className="flex items-center justify-between px-5 pt-5 pb-0"
-      >
-        <div className="flex items-center gap-3">
-          {/* Route number pill */}
-          <span
-            className="font-metro text-[9px] font-900 tracking-[0.18em] uppercase px-2 py-1"
-            style={{
-              backgroundColor: "var(--club-primary-faint)",
-              color: "var(--club-primary)",
-              border: "1px solid color-mix(in srgb, var(--club-primary) 25%, transparent)",
-            }}
-          >
-            {String(index).padStart(2, "0")}
-          </span>
+      {/* colour tab */}
+      <div style={{ height: 2, background: primary }} />
 
-          {/* Transit line + schedule */}
-          <span className="sys-label">
-            {startStation.line}&nbsp;·&nbsp;{dayOfWeek.slice(0, 3)}&nbsp;·&nbsp;{meetTime}
-          </span>
-        </div>
+      {/* header */}
+      <div style={{ padding: "1.25rem 1.25rem 0.5rem" }}>
+        <p style={{ fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase",
+                    color: primary, fontFamily: "var(--font-sans)", fontWeight: 700, marginBottom: "0.6rem" }}>
+          {s.line} {s.code} · {dayOfWeek.slice(0, 3)} {meetTime}
+        </p>
 
-        {/* Club — secondary, right-aligned */}
-        <span
-          className="font-metro text-[9px] font-bold tracking-[0.14em] uppercase text-[var(--color-ink-mid)]"
-        >
-          {club.shortName ?? club.name.split(" ")[0]}
-        </span>
-      </div>
-
-      {/* ── Station name — the HERO ─────────────────────────────────────── */}
-      <div className="px-5 pt-3 pb-2">
-        <h2
-          className="font-metro font-black uppercase text-[var(--color-ink)] leading-[0.86]"
-          style={{ fontSize: "clamp(3rem, 16vw, 7rem)" }}
-        >
-          {startStation.name}
+        <h2 style={{ fontFamily: "var(--font-sans)", fontWeight: 900, textTransform: "uppercase",
+                     fontSize: "clamp(2.4rem, 12vw, 4.5rem)", lineHeight: 0.88,
+                     color: "var(--color-ink)", marginBottom: "0.4rem", letterSpacing: "-0.01em" }}>
+          {s.name}
         </h2>
-      </div>
 
-      {/* ── Distance + elevation row ─────────────────────────────────────── */}
-      <div className="px-5 py-3 flex items-baseline gap-3">
-        <span
-          className="font-metro font-black uppercase"
-          style={{ fontSize: "clamp(1.1rem, 5vw, 1.8rem)", color: "var(--club-primary)" }}
-        >
-          {distanceKm} km
-        </span>
-        {elevationGainM && (
-          <span className="font-mono text-[11px] text-[var(--color-ink-mid)]">
-            +{elevationGainM}m
+        <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, textTransform: "uppercase",
+                    fontSize: "clamp(1rem, 5vw, 1.5rem)", color: "var(--color-mid)", letterSpacing: "0.01em" }}>
+          → {endCafe}
+          <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: "0.7rem",
+                         color: "var(--color-faint)", marginLeft: "0.5rem", textTransform: "none",
+                         letterSpacing: 0 }}>
+            {cafeArea}
           </span>
-        )}
-        <span className="font-mono text-[11px] text-[var(--color-ink-faint)]">
-          {route.tags.slice(0, 2).join(" · ")}
-        </span>
-      </div>
-
-      {/* ── Café — secondary destination ────────────────────────────────── */}
-      <div className="px-5 pb-6">
-        <p
-          className="font-metro font-bold uppercase tracking-tight leading-tight text-[var(--color-ink)]"
-          style={{ fontSize: "clamp(1.4rem, 7vw, 2.4rem)" }}
-        >
-          {endCafe}
-        </p>
-        <p className="font-mono text-[11px] text-[var(--color-ink-mid)] mt-1 tracking-wider uppercase">
-          {cafeArea}
         </p>
       </div>
 
-      {/* ── CTA ─────────────────────────────────────────────────────────── */}
-      <a
-        href={stravaRouteUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`btn-route${lightText ? " light-text" : ""}`}
-        aria-label={`Open ${route.name} in Strava`}
-      >
+      {/* real OSM map, dark via CSS filter */}
+      <iframe
+        src={osmUrl(s.lat, s.lon)}
+        className="map-frame"
+        title={`Map around ${s.name}`}
+        loading="lazy"
+        referrerPolicy="no-referrer"
+      />
+
+      {/* stats */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", borderTop: "1px solid var(--color-rule)",
+                    borderBottom: "1px solid var(--color-rule)" }}>
+        {[
+          ["Distance",  `${distanceKm} km`],
+          ["Elevation", elevationGainM ? `+${elevationGainM}m` : "flat"],
+          ["Pace",      `~${paceMinkm} /km`],
+          ["Est. time", `~${totalMin} min`],
+        ].map(([label, val], i) => (
+          <div key={label}
+            style={{ padding: "0.85rem 1.25rem",
+                     borderLeft:  i % 2 === 1 ? "1px solid var(--color-rule)" : undefined,
+                     borderTop:   i >= 2      ? "1px solid var(--color-rule)" : undefined }}>
+            <p style={{ fontSize: "0.55rem", letterSpacing: "0.2em", textTransform: "uppercase",
+                        color: "var(--color-amber)", fontFamily: "var(--font-sans)", fontWeight: 700,
+                        marginBottom: "0.3rem" }}>
+              {label}
+            </p>
+            <p style={{ fontFamily: "var(--font-sans)", fontWeight: 900, textTransform: "uppercase",
+                        fontSize: "clamp(1.1rem, 5.5vw, 1.6rem)", color: i < 2 ? primary : "var(--color-ink)",
+                        lineHeight: 1 }}>
+              {val}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* weather */}
+      {weather && (
+        <div style={{ padding: "0.85rem 1.25rem", display: "flex", alignItems: "center",
+                      justifyContent: "space-between", borderBottom: "1px solid var(--color-rule)" }}>
+          <div>
+            <p style={{ fontSize: "0.55rem", letterSpacing: "0.2em", textTransform: "uppercase",
+                        color: "var(--color-amber)", fontFamily: "var(--font-sans)", fontWeight: 700,
+                        marginBottom: "0.3rem" }}>
+              Bangkok now
+            </p>
+            <p style={{ fontFamily: "var(--font-sans)", fontWeight: 900, textTransform: "uppercase",
+                        fontSize: "clamp(1.1rem, 5vw, 1.5rem)", color: "var(--color-ink)" }}>
+              {weather.temp}°
+              <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: "0.7rem",
+                             color: "var(--color-mid)", marginLeft: "0.5rem", textTransform: "none" }}>
+                feels {weather.feelsLike}° · {weather.label} · {weather.humidity}% hum
+              </span>
+            </p>
+          </div>
+          <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", textAlign: "right",
+                      color: weather.runConditionLevel === "good" ? "#5DBB8A"
+                           : weather.runConditionLevel === "ok"   ? "#B5834A"
+                           :                                         "#E05A4A",
+                      maxWidth: "120px", lineHeight: 1.3 }}>
+            {weather.runCondition}
+          </p>
+        </div>
+      )}
+
+      {/* tags */}
+      <p style={{ padding: "0.6rem 1.25rem", fontSize: "0.6rem", letterSpacing: "0.1em",
+                  color: "var(--color-faint)", textTransform: "uppercase",
+                  fontFamily: "var(--font-mono)", borderBottom: "1px solid var(--color-rule)" }}>
+        {tags.join(" · ")}
+      </p>
+
+      {/* CTA */}
+      <a href={stravaRouteUrl} target="_blank" rel="noopener noreferrer"
+         className={`btn-strava${darkText(primary) ? "" : " inv"}`}>
         <span>Open in Strava</span>
-        <span aria-hidden className="text-base leading-none">↗</span>
+        <span>↗</span>
       </a>
-    </article>
+    </section>
   );
 }
