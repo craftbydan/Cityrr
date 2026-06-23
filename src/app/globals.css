@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg:       #111009;
+  --color-surface:  #1A1712;
+  --color-ink:      #E8DECC;
+  --color-mid:      #7A6858;
+  --color-faint:    #3A2E22;
+  --color-rule:     #2A2018;
+  --color-amber:    #B5834A;
+
+  --font-sans: var(--font-barlow), "Arial Narrow", sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* OSM map dark invert */
+.map-frame {
+  filter: invert(1) hue-rotate(200deg) brightness(0.7) saturate(0.6);
+  width: 100%;
+  height: 200px;
+  border: none;
+  display: block;
+}
+
+/* CTA */
+.btn-strava {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 1.25rem;
+  background: var(--club-primary, #B5834A);
+  color: #0A0806;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: opacity 80ms;
+}
+.btn-strava:active { opacity: 0.8; }
+.btn-strava.inv    { color: #E8DECC; }
