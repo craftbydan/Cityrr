@@ -1,9 +1,7 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   CITYRR — NYC Metro × Aesop
-   Barlow Condensed for everything visible. JetBrains Mono for data.
-   Route first. Club second.
+   CITYRR — NYC Metro × Aesop · Phone-native
 ───────────────────────────────────────────────────────────────────────────── */
 
 @theme inline {
@@ -28,12 +26,19 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent text resize on orientation change */
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   background-color: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-mono);
+  /* iOS safe area support */
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* Film grain */
@@ -52,7 +57,7 @@ body::after {
 .font-metro { font-family: var(--font-metro); }
 .font-mono  { font-family: var(--font-mono); }
 
-/* Metro system label — amber, tracked, caps */
+/* Amber system label */
 .sys-label {
   font-family: var(--font-metro);
   font-size: 0.6rem;
@@ -60,30 +65,34 @@ body::after {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--color-amber);
+  display: block;
 }
 
 /* Club override root */
 .club-root {
+  background-color: var(--color-surface);
   --club-primary-faint: color-mix(in srgb, var(--club-primary) 10%, transparent);
 }
 
-/* ── Full-width CTA ─────────────────────────────────────────────────────── */
+/* ── Full-width CTA — minimum 56px touch target ─────────────────────────── */
 .btn-route {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 1.1rem 1.25rem;
+  min-height: 56px;
+  padding: 0 1.25rem;
   background-color: var(--club-primary);
   color: #0A0806;
   font-family: var(--font-metro);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 900;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   text-decoration: none;
   transition: opacity 100ms ease;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .btn-route.light-text { color: #EAE0D0; }
-.btn-route:active { opacity: 0.82; }
+.btn-route:active     { opacity: 0.8; }
