@@ -119,3 +119,9 @@ export const urbanRunTribe: ClubProfile = {
 };
 
 export const allClubs: ClubProfile[] = [sabaiRunningClub, urbanRunTribe];
+
+/** Flat route list — for the route-first home page */
+export const allRoutes = [
+  ...sabaiRunningClub.featuredRoutes.map((r) => ({ route: r, club: sabaiRunningClub })),
+  ...urbanRunTribe.featuredRoutes.map((r)  => ({ route: r, club: urbanRunTribe })),
+];
