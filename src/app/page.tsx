@@ -7,30 +7,30 @@ export default function Home() {
       className="min-h-screen flex flex-col"
       style={{ backgroundColor: "var(--color-canvas)" }}
     >
-      {/* ── Nav ─────────────────────────────────────────────────────────── */}
+      {/* ── Nav — metro header bar ───────────────────────────────────────── */}
       <nav
-        className="flex items-center justify-between px-5 py-5 border-b"
+        className="flex items-center justify-between px-5 py-4 border-b"
         style={{ borderColor: "var(--color-rule)" }}
       >
+        {/* Wordmark — Barlow Condensed, the metro font */}
         <span
-          className="font-display text-xl font-black tracking-[-0.04em] text-[var(--color-ink)]"
-          style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
+          className="font-metro text-2xl font-black uppercase tracking-[-0.02em] text-[var(--color-ink)]"
+          style={{ fontFamily: "var(--font-metro)" }}
         >
           Cityrr
         </span>
-        <span className="font-body text-[9px] tracking-[0.22em] uppercase text-[var(--color-ink-faint)]">
-          Bangkok
-        </span>
+
+        {/* Location — amber small caps */}
+        <span className="metro-label">Bangkok</span>
       </nav>
 
       {/* ── Clubs ───────────────────────────────────────────────────────── */}
       <main className="flex-1">
         <RunClubProfile club={sabaiRunningClub} />
 
-        {/* Between-club divider */}
+        {/* Between-club divider — amber rule full bleed */}
         <div
-          className="h-px mx-5 my-1"
-          style={{ backgroundColor: "var(--color-rule)" }}
+          style={{ height: "1px", backgroundColor: "var(--color-rule-strong)" }}
           aria-hidden
         />
 
@@ -39,11 +39,11 @@ export default function Home() {
 
       {/* ── Footer ──────────────────────────────────────────────────────── */}
       <footer
-        className="border-t px-5 py-6"
+        className="px-5 py-5 border-t"
         style={{ borderColor: "var(--color-rule)" }}
       >
-        <p className="font-body text-[10px] tracking-[0.14em] uppercase text-[var(--color-ink-faint)]">
-          Cityrr &nbsp;·&nbsp; Transit-to-breakfast &nbsp;·&nbsp; Bangkok
+        <p className="metro-label">
+          Cityrr&nbsp;&nbsp;·&nbsp;&nbsp;Transit-to-Breakfast&nbsp;&nbsp;·&nbsp;&nbsp;Bangkok
         </p>
       </footer>
     </div>

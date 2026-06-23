@@ -1,25 +1,39 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   CITYRR — A24 Edition
-   Typography carries everything. Colour is rationed. Space is the luxury.
+   CITYRR — NYC Metro × Aesop
+   The systematic precision of Vignelli's 1972 subway map.
+   The warm apothecary restraint of an Aesop store at dusk.
 ───────────────────────────────────────────────────────────────────────────── */
 
 @theme inline {
-  --color-canvas:        #F4F1EB;
-  --color-ink:           #111111;
-  --color-ink-mid:       #555555;
-  --color-ink-faint:     #999999;
-  --color-rule:          #DEDAD4;
-  --color-surface:       #FDFCFA;
+  /* Dark warm canvas */
+  --color-canvas:      #100E0C;
+  --color-surface:     #1A1612;
+  --color-surface-hi:  #221E19;
 
-  --font-display: var(--font-playfair), Georgia, serif;
-  --font-body:    var(--font-jetbrains), monospace;
+  /* Warm ivory text tiers */
+  --color-ink:         #EAE0D0;
+  --color-ink-mid:     #8A7868;
+  --color-ink-faint:   #50443A;
 
-  /* Club override vars — set per-profile via inline style */
-  --club-primary: #111111;
-  --club-accent:  #555555;
-  --club-font:    var(--font-playfair), Georgia, serif;
+  /* Aesop amber — the signature */
+  --color-amber:       #B5834A;
+  --color-amber-faint: color-mix(in srgb, #B5834A 14%, transparent);
+
+  /* Borders */
+  --color-rule:        #2C2420;
+  --color-rule-strong: #3A2E28;
+
+  /* Fonts — next/font vars are --font-barlow, --font-cormorant, --font-jetbrains */
+  --font-metro: var(--font-barlow), "Arial Narrow", "Helvetica Neue", sans-serif;
+  --font-aesop: var(--font-cormorant), Georgia, serif;
+  --font-mono:  var(--font-jetbrains), monospace;
+
+  /* Club override vars */
+  --club-primary: #B5834A;
+  --club-accent:  #8A7868;
+  --club-font:    var(--font-cormorant), Georgia, serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -32,52 +46,72 @@ html {
 body {
   background-color: var(--color-canvas);
   color: var(--color-ink);
-  font-family: var(--font-body);
+  font-family: var(--font-mono);
   line-height: 1.5;
-  /* Film grain overlay */
-  position: relative;
 }
 
-/* Grain */
+/* ── Film grain (warm, not cold) ────────────────────────────────────────── */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 999;
-  opacity: 0.028;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 200px 200px;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
 }
 
-/* ── Utility helpers ────────────────────────────────────────────────────── */
-.font-display { font-family: var(--font-display); }
-.font-body    { font-family: var(--font-body); }
-.font-club    { font-family: var(--club-font); }
+/* ── Typography helpers ─────────────────────────────────────────────────── */
+.font-metro { font-family: var(--font-metro); }
+.font-aesop { font-family: var(--font-aesop); }
+.font-mono  { font-family: var(--font-mono); }
+
+/* ── Metro label — the Vignelli touch ──────────────────────────────────── */
+.metro-label {
+  font-family: var(--font-metro);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+}
 
 /* ── Club override root ─────────────────────────────────────────────────── */
 .club-root {
-  --club-primary-faint: color-mix(in srgb, var(--club-primary) 8%, transparent);
+  background-color: var(--color-surface);
+  --club-primary-faint: color-mix(in srgb, var(--club-primary) 10%, transparent);
 }
 
-/* ── Full-width CTA button ──────────────────────────────────────────────── */
-.btn-open-route {
+/* ── Amber line — the signature Aesop stroke ────────────────────────────── */
+.amber-rule {
+  height: 1px;
+  background-color: var(--color-amber);
+  opacity: 0.4;
+}
+
+/* ── CTA button ─────────────────────────────────────────────────────────── */
+.btn-route {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 1.25rem 1.25rem;
+  padding: 1.1rem 1.25rem;
   background-color: var(--club-primary);
-  color: #ffffff;
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  color: #0F0D0A;
+  font-family: var(--font-metro);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   text-decoration: none;
   transition: opacity 100ms ease;
   -webkit-tap-highlight-color: transparent;
 }
 
-.btn-open-route:active { opacity: 0.8; }
+.btn-route:active { opacity: 0.85; }
+
+/* Invert text colour for very dark club primaries */
+.btn-route.light-text {
+  color: #EAE0D0;
+}

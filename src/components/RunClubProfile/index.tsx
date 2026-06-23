@@ -6,10 +6,10 @@ import TransitToToastCard from "./TransitToToastCard";
 import StravaRouteButton from "./StravaRouteButton";
 
 export default function RunClubProfile({ club }: { club: ClubProfile }) {
-  const { branding, featuredRoutes } = club;
+  const { branding, featuredRoutes, description } = club;
 
   const cssVars = {
-    "--club-font":    `'${branding.font}', 'Playfair Display', Georgia, serif`,
+    "--club-font":    `'Cormorant Garamond', Georgia, serif`,
     "--club-primary": branding.primary,
     "--club-accent":  branding.accent,
   } as React.CSSProperties;
@@ -19,29 +19,40 @@ export default function RunClubProfile({ club }: { club: ClubProfile }) {
   return (
     <article className="club-root" style={cssVars}>
 
-      {/* Club-colour top stripe */}
+      {/* Club-colour top stripe — 2px, the metro edge line */}
       <div
-        className="w-full"
-        style={{ height: "3px", backgroundColor: "var(--club-primary)" }}
+        style={{ height: "2px", backgroundColor: "var(--club-primary)", opacity: 0.9 }}
         aria-hidden
       />
 
-      {/* Club name + tagline */}
+      {/* Header — massive name + italic tagline */}
       <RunClubHeader club={club} />
 
-      {/* Thin rule */}
-      <div className="mx-5 h-px bg-[var(--color-rule)]" aria-hidden />
+      {/* Amber rule */}
+      <div className="mx-5 amber-rule" aria-hidden />
 
-      {/* Route details */}
+      {/* Route — 2-col metro departure board */}
       {primaryRoute && <TransitToToastCard route={primaryRoute} />}
 
-      {/* Additional routes — minimal pill list */}
+      {/* Amber rule */}
+      <div className="mx-5 amber-rule" aria-hidden />
+
+      {/* Club description — Cormorant italic body, apothecary tone */}
+      <p
+        className="font-aesop italic px-5 py-7 leading-relaxed text-[var(--color-ink-mid)]"
+        style={{ fontSize: "clamp(0.95rem, 3.8vw, 1.15rem)", maxWidth: "40ch" }}
+      >
+        {description}
+      </p>
+
+      {/* Additional routes — metro pill list */}
       {featuredRoutes.length > 1 && (
         <div className="px-5 pb-6 flex flex-wrap gap-2">
           {featuredRoutes.slice(1).map((r) => (
             <span
               key={r.id}
-              className="font-body text-[10px] tracking-wider uppercase px-2.5 py-1.5 border border-[var(--color-rule)] text-[var(--color-ink-faint)]"
+              className="font-metro text-[10px] font-bold tracking-[0.14em] uppercase px-3 py-1.5 border text-[var(--color-ink-faint)]"
+              style={{ borderColor: "var(--color-rule-strong)" }}
             >
               {r.name}
             </span>
@@ -49,16 +60,13 @@ export default function RunClubProfile({ club }: { club: ClubProfile }) {
         </div>
       )}
 
-      {/* Thin rule */}
-      <div className="mx-5 h-px bg-[var(--color-rule)]" aria-hidden />
-
-      {/* About — one sentence, no heading */}
-      <p className="font-display italic text-[0.9rem] leading-relaxed text-[var(--color-ink-mid)] px-5 py-6 max-w-prose">
-        {club.description}
-      </p>
-
-      {/* CTA — full bleed */}
-      {primaryRoute && <StravaRouteButton href={primaryRoute.stravaRouteUrl} />}
+      {/* CTA — full bleed, club primary */}
+      {primaryRoute && (
+        <StravaRouteButton
+          href={primaryRoute.stravaRouteUrl}
+          clubPrimary={branding.primary}
+        />
+      )}
     </article>
   );
 }

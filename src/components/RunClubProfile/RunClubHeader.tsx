@@ -6,27 +6,24 @@ export default function RunClubHeader({ club }: { club: ClubProfile }) {
   return (
     <header className="px-5 pt-10 pb-8">
 
-      {/* Tiny location label */}
-      <p className="font-body text-[9px] tracking-[0.22em] uppercase text-[var(--color-ink-faint)] mb-7">
-        {club.district} &nbsp;/&nbsp; Bangkok
+      {/* Amber metro label — district + line */}
+      <p className="metro-label mb-6">
+        {club.district}&nbsp;&nbsp;/&nbsp;&nbsp;Bangkok Run Club
       </p>
 
-      {/* Club name — the whole hero */}
+      {/* Club name — full metro boldness */}
       <h1
-        className="font-club leading-[0.92] tracking-[-0.03em] font-black text-[var(--color-ink)]"
-        style={{
-          fontFamily: "var(--club-font)",
-          fontSize: "clamp(3.2rem, 16vw, 7rem)",
-        }}
+        className="font-metro font-black uppercase leading-[0.88] tracking-[-0.01em] text-[var(--color-ink)]"
+        style={{ fontSize: "clamp(3.4rem, 17vw, 8rem)" }}
       >
         {club.name}
       </h1>
 
-      {/* Tagline — italic, restrained */}
+      {/* Tagline — Aesop italic serif, quietly below */}
       {club.tagline && (
         <p
-          className="font-display italic text-[var(--color-ink-mid)] mt-4 leading-snug"
-          style={{ fontSize: "clamp(0.9rem, 3.5vw, 1.1rem)", maxWidth: "26ch" }}
+          className="font-aesop italic text-[var(--color-ink-mid)] mt-5 leading-relaxed"
+          style={{ fontSize: "clamp(1rem, 4vw, 1.2rem)", maxWidth: "28ch" }}
         >
           {club.tagline}
         </p>

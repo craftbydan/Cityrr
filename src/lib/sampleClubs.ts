@@ -20,9 +20,9 @@ export const sabaiRunningClub: ClubProfile = {
   instagramHandle: "sabai.running.bkk",
   stravaClubUrl: "https://www.strava.com/clubs/sabai-bkk",
   branding: {
-    font: "Playfair Display",
-    primary: "#0D6E6E",   // deep teal — composed, intellectual, on-brand
-    accent: "#2DC5B0",    // bright teal — vibrant tag highlights
+    font: "Cormorant Garamond",
+    primary: "#4ABFB8",   // light teal — readable against dark canvas
+    accent:  "#2DC5B0",
   },
   featuredRoutes: [
     {
@@ -77,9 +77,9 @@ export const urbanRunTribe: ClubProfile = {
   instagramHandle: "urbanruntribe",
   stravaClubUrl: "https://www.strava.com/clubs/urt-bkk",
   branding: {
-    font: "Playfair Display",
-    primary: "#E84A00",   // electric orange — high energy, streetwear heat
-    accent: "#F5A623",    // amber gold — warm tag accents
+    font: "Cormorant Garamond",
+    primary: "#E8500A",   // electric orange — pops on dark canvas
+    accent:  "#F5A623",
   },
   featuredRoutes: [
     {
