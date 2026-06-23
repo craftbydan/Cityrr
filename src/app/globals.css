@@ -1,164 +1,83 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   CITYRR DESIGN SYSTEM — Warm × Hype
-   The editorial-warmth of Claude.ai × the kinetic energy of streetwear.
+   CITYRR — A24 Edition
+   Typography carries everything. Colour is rationed. Space is the luxury.
 ───────────────────────────────────────────────────────────────────────────── */
 
 @theme inline {
-  /* Warm Canvas Palette */
-  --color-canvas:        #FBF9F6;
-  --color-canvas-raised: #F4F1EC;
-  --color-ink:           #1C1917;
-  --color-ink-muted:     #57534E;
-  --color-ink-faint:     #A8A29E;
-  --color-border:        #E6E1DA;
-  --color-border-strong: #C8C4BD;
-  --color-surface:       #FFFFFF;
+  --color-canvas:        #F4F1EB;
+  --color-ink:           #111111;
+  --color-ink-mid:       #555555;
+  --color-ink-faint:     #999999;
+  --color-rule:          #DEDAD4;
+  --color-surface:       #FDFCFA;
 
-  /* Typography Scales */
-  --font-display: var(--font-playfair), 'Georgia', serif;
-  --font-body:    var(--font-jetbrains), 'Courier New', monospace;
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-body:    var(--font-jetbrains), monospace;
 
-  /* Transit Line Colors (system-level, not club-specific) */
-  --color-bts:   #5DB075;
-  --color-mrt:   #1E6DB5;
-  --color-arl:   #9333EA;
-
-  /* Club Override Variables — defaults (overridden per-club via inline style) */
-  --club-font:    var(--font-playfair), 'Georgia', serif;
-  --club-primary: #1C1917;
-  --club-accent:  #57534E;
+  /* Club override vars — set per-profile via inline style */
+  --club-primary: #111111;
+  --club-accent:  #555555;
+  --club-font:    var(--font-playfair), Georgia, serif;
 }
 
-/* ─── Base Reset & Body ─────────────────────────────────────────────────── */
-
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
 body {
   background-color: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-body);
-  line-height: 1.6;
+  line-height: 1.5;
+  /* Film grain overlay */
+  position: relative;
 }
 
-/* ─── Typography Utility Classes ────────────────────────────────────────── */
-
-.font-display  { font-family: var(--font-display); }
-.font-body     { font-family: var(--font-body); }
-.font-club     { font-family: var(--club-font); }
-
-/* ─── Club Override Engine ──────────────────────────────────────────────── */
-/* Applied on the .club-profile-root wrapper via inline style prop.           */
-/* Children reference these vars freely, enabling per-club theming.           */
-
-.club-profile-root {
-  --club-primary-dark: color-mix(in srgb, var(--club-primary) 70%, #000);
-  --club-primary-fade: color-mix(in srgb, var(--club-primary) 12%, transparent);
-  --club-accent-fade:  color-mix(in srgb, var(--club-accent) 15%, transparent);
+/* Grain */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
 }
 
-/* ─── Hype Button — Neo-Brutalist Block Shadow ──────────────────────────── */
+/* ── Utility helpers ────────────────────────────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.font-body    { font-family: var(--font-body); }
+.font-club    { font-family: var(--club-font); }
 
-.btn-hype {
-  display: inline-flex;
+/* ── Club override root ─────────────────────────────────────────────────── */
+.club-root {
+  --club-primary-faint: color-mix(in srgb, var(--club-primary) 8%, transparent);
+}
+
+/* ── Full-width CTA button ──────────────────────────────────────────────── */
+.btn-open-route {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1.75rem;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.25rem 1.25rem;
+  background-color: var(--club-primary);
+  color: #ffffff;
   font-family: var(--font-body);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #FFFFFF;
-  background-color: var(--club-primary);
-  border: 2px solid var(--color-ink);
-  box-shadow: 5px 5px 0 0 var(--color-ink);
-  transition: box-shadow 80ms ease, transform 80ms ease;
-  cursor: pointer;
-  white-space: nowrap;
-  user-select: none;
-  -webkit-user-select: none;
   text-decoration: none;
+  transition: opacity 100ms ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn-hype:hover {
-  box-shadow: 2px 2px 0 0 var(--color-ink);
-  transform: translate(3px, 3px);
-}
-
-.btn-hype:active {
-  box-shadow: 0 0 0 0 var(--color-ink);
-  transform: translate(5px, 5px);
-}
-
-.btn-hype:focus-visible {
-  outline: 3px solid var(--club-accent);
-  outline-offset: 3px;
-}
-
-/* ─── Card Base ─────────────────────────────────────────────────────────── */
-
-.card-crisp {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-}
-
-/* ─── Transit Station Chips ─────────────────────────────────────────────── */
-
-.chip-bts {
-  background-color: color-mix(in srgb, var(--color-bts) 15%, transparent);
-  color: color-mix(in srgb, var(--color-bts) 80%, #000);
-  border: 1px solid color-mix(in srgb, var(--color-bts) 35%, transparent);
-}
-
-.chip-mrt {
-  background-color: color-mix(in srgb, var(--color-mrt) 15%, transparent);
-  color: color-mix(in srgb, var(--color-mrt) 90%, #000);
-  border: 1px solid color-mix(in srgb, var(--color-mrt) 35%, transparent);
-}
-
-.chip-arl {
-  background-color: color-mix(in srgb, var(--color-arl) 15%, transparent);
-  color: color-mix(in srgb, var(--color-arl) 80%, #000);
-  border: 1px solid color-mix(in srgb, var(--color-arl) 35%, transparent);
-}
-
-/* ─── Accent Tag Pill ───────────────────────────────────────────────────── */
-
-.tag-club {
-  background-color: var(--club-accent-fade);
-  color: color-mix(in srgb, var(--club-accent) 85%, #000);
-  border: 1px solid color-mix(in srgb, var(--club-accent) 30%, transparent);
-}
-
-/* ─── Route Line ────────────────────────────────────────────────────────── */
-
-.route-line {
-  background-color: var(--club-primary);
-  opacity: 0.35;
-}
-
-.route-dot-start {
-  border: 2.5px solid var(--club-primary);
-  background-color: var(--color-surface);
-}
-
-.route-dot-end {
-  background-color: var(--club-primary);
-}
-
-/* ─── Selection ─────────────────────────────────────────────────────────── */
-
-::selection {
-  background-color: color-mix(in srgb, var(--club-primary) 25%, transparent);
-}
+.btn-open-route:active { opacity: 0.8; }
