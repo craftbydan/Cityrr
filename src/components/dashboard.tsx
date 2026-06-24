@@ -13,7 +13,7 @@ const distanceBands = [
   { label: "20K", min: 16, max: Infinity },
 ];
 
-export function Dashboard() {
+export function Dashboard({ showLogo = true }: { showLogo?: boolean }) {
   const [terrain, setTerrain] = useState<string>("All");
   const [distanceBand, setDistanceBand] = useState(0);
   const [search, setSearch] = useState("");
@@ -30,7 +30,9 @@ export function Dashboard() {
         !route.name.toLowerCase().includes(query) &&
         !route.neighborhood.toLowerCase().includes(query) &&
         !route.finishSpot.toLowerCase().includes(query) &&
-        !route.mtaStation.toLowerCase().includes(query)
+        !route.mtaStation.toLowerCase().includes(query) &&
+        !route.landmarks.some((landmark) => landmark.toLowerCase().includes(query)) &&
+        !route.note.toLowerCase().includes(query)
       ) {
         return false;
       }
@@ -41,11 +43,13 @@ export function Dashboard() {
   return (
     <div className="min-h-screen bg-background pb-safe">
       <header className="sticky top-0 z-20 bg-background/90 pt-safe backdrop-blur-md">
-        <div className="border-b border-border px-4 pb-4 pt-3">
-          <h1 className="font-display text-[2rem] font-semibold leading-none tracking-tight text-coral">
-            Cityrr.
-          </h1>
-          <p className="mt-2 max-w-[300px] text-sm leading-snug text-muted">
+        <div className={`border-b border-border px-4 pb-4 ${showLogo ? "pt-3" : "pt-14"}`}>
+          {showLogo ? (
+            <h1 className="font-display text-[2rem] font-semibold leading-none tracking-tight text-coral">
+              Cityrr.
+            </h1>
+          ) : null}
+          <p className={`max-w-[300px] text-sm leading-snug text-muted ${showLogo ? "mt-2" : ""}`}>
             Swipe your MetroCard. Run somewhere. Finish with coffee you didn&apos;t quite earn.
           </p>
         </div>

@@ -17,6 +17,7 @@ function RouteCard({ route }: { route: Route }) {
             <h2 className="font-display mt-0.5 text-xl font-semibold leading-tight text-navy">
               {route.name}
             </h2>
+            <p className="mt-1.5 text-sm leading-snug text-muted italic">{route.note}</p>
           </div>
           <div className="text-right">
             <p className="font-display text-2xl font-semibold leading-none tabular-nums text-coral">
@@ -30,6 +31,12 @@ function RouteCard({ route }: { route: Route }) {
           <span>{route.terrain}</span>
           <span>·</span>
           <span>+{route.elevationGainM}m</span>
+        </div>
+        <div className="mt-3">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Passes</p>
+          <p className="mt-1 text-sm leading-snug text-foreground/85">
+            {route.landmarks.join(" · ")}
+          </p>
         </div>
       </div>
 

@@ -13,6 +13,8 @@ export type Route = {
   mtaLines: string;
   finishSpot: string;
   finishType: string;
+  landmarks: string[];
+  note: string;
 };
 
 export const routes: Route[] = [
@@ -29,6 +31,8 @@ export const routes: Route[] = [
     mtaLines: "A · C",
     finishSpot: "Shake Shack",
     finishType: "burgers & shakes",
+    landmarks: ["Brooklyn Bridge", "DUMBO Archway", "Brooklyn Bridge Park"],
+    note: "Selfie sticks at dawn. You've been warned.",
   },
   {
     id: "2",
@@ -43,6 +47,8 @@ export const routes: Route[] = [
     mtaLines: "A · B · C · D · 1",
     finishSpot: "Gregorys Coffee",
     finishType: "coffee & breakfast sandwich",
+    landmarks: ["Columbus Circle", "Bethesda Terrace", "The Mall", "Sheep Meadow"],
+    note: "Horse shit, pedicabs, tourists on Citibikes. Classic.",
   },
   {
     id: "3",
@@ -57,6 +63,8 @@ export const routes: Route[] = [
     mtaLines: "L",
     finishSpot: "Devocion",
     finishType: "coffee & pastries",
+    landmarks: ["Domino Park", "East River State Park", "Williamsburg Bridge"],
+    note: "Flat, breezy, and full of people who definitely didn't run here.",
   },
   {
     id: "4",
@@ -71,6 +79,8 @@ export const routes: Route[] = [
     mtaLines: "F · J · M · Z",
     finishSpot: "Russ & Daughters Cafe",
     finishType: "bagels & lox",
+    landmarks: ["Williamsburg Bridge", "East River Park", "Pier 35"],
+    note: "The one LES route where you won't get stuck behind a brunch line. Almost.",
   },
   {
     id: "5",
@@ -85,6 +95,8 @@ export const routes: Route[] = [
     mtaLines: "A · C · E · L",
     finishSpot: "Jack's Wife Freda",
     finishType: "brunch & coffee",
+    landmarks: ["Hudson River Park", "Pier 45", "Little Island"],
+    note: "Watch for cyclists who think the bike lane is a personality test.",
   },
   {
     id: "6",
@@ -99,6 +111,8 @@ export const routes: Route[] = [
     mtaLines: "2 · 3",
     finishSpot: "Southside Coffee",
     finishType: "coffee & pastries",
+    landmarks: ["Grand Army Plaza", "Audubon Center", "Prospect Park Lake"],
+    note: "Central Park's slightly less insufferable sibling. Slightly.",
   },
   {
     id: "7",
@@ -113,6 +127,8 @@ export const routes: Route[] = [
     mtaLines: "7 · N · W",
     finishSpot: "Sweetleaf Coffee",
     finishType: "coffee & light bites",
+    landmarks: ["Queensboro Bridge", "Roosevelt Island Tram", "Gantry Plaza State Park"],
+    note: "The views are great. The incline is not a negotiable opinion.",
   },
   {
     id: "8",
@@ -127,6 +143,8 @@ export const routes: Route[] = [
     mtaLines: "4 · 5 · 6",
     finishSpot: "Sylvia's Restaurant",
     finishType: "southern breakfast",
+    landmarks: ["Marcus Garvey Park", "Harlem River Greenway", "Washington Bridge"],
+    note: "Actual hills. Actual sweat. Sylvia's doesn't care how you got there.",
   },
   {
     id: "9",
@@ -141,6 +159,8 @@ export const routes: Route[] = [
     mtaLines: "F",
     finishSpot: "Piccolo Trattoria",
     finishType: "espresso & pastries",
+    landmarks: ["Four Freedoms Park", "Blackwell Island Lighthouse", "Cornell Tech"],
+    note: "The tram is right there. You chose running anyway. Respect?",
   },
   {
     id: "10",
@@ -155,5 +175,7 @@ export const routes: Route[] = [
     mtaLines: "D · F · N · Q",
     finishSpot: "Tom's Restaurant",
     finishType: "diner breakfast",
+    landmarks: ["Coney Island Boardwalk", "New York Aquarium", "Wonder Wheel"],
+    note: "16K for a diner breakfast. You're not well, but you're consistent.",
   },
 ];
