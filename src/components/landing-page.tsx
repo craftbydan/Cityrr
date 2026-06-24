@@ -144,11 +144,15 @@ export function LandingPage() {
         <section aria-label="Running routes">
           <div className="mb-6 flex flex-wrap items-center gap-2.5">
             <span className="text-sm font-medium text-blue/50">Distance</span>
-            {["5K", "10K", "15K", "20K"].map((band) => (
+            {["5K", "10K", "15K", "20K"].map((band, i) => (
               <button
                 key={band}
                 type="button"
-                className="border border-blue/20 bg-white px-3.5 py-1.5 text-sm font-medium text-blue/70 transition-colors hover:border-orange hover:text-orange"
+                className={`border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                  i % 2 === 0
+                    ? "border-blue/25 bg-blue-light/80 text-blue hover:bg-blue hover:text-white"
+                    : "border-orange/25 bg-[#fff4ee] text-orange hover:bg-orange hover:text-white"
+                }`}
                 style={{ borderRadius: "var(--radius-btn)" }}
               >
                 {band}
