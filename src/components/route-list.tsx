@@ -53,12 +53,12 @@ function RouteCard({ route }: { route: Route }) {
 
           <div className="flex flex-1 flex-col justify-between gap-4 py-0.5">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Start</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Get off here</p>
               <p className="mt-0.5 font-semibold text-foreground">{route.mtaStation}</p>
               <p className="text-sm text-muted">{route.mtaLines}</p>
             </div>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Finish</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted">You&apos;ve earned this</p>
               <p className="mt-0.5 font-semibold text-foreground">{route.finishSpot}</p>
               <p className="text-sm text-muted">{route.finishType}</p>
             </div>
