@@ -6,6 +6,7 @@ import { routes } from "@/lib/routes";
 
 const INTRO_HOLD_MS = 2200;
 const TRANSITION_MS = 900;
+const LOGO = "Cityrr.";
 
 export function LandingPage() {
   const [phase, setPhase] = useState<"intro" | "main">("intro");
@@ -18,10 +19,10 @@ export function LandingPage() {
   const isMain = phase === "main";
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-cream">
+    <div className="relative min-h-screen overflow-x-hidden bg-blue-light">
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-0 z-30 bg-coral transition-opacity ease-out"
+        className="pointer-events-none fixed inset-0 z-30 bg-blue transition-opacity ease-out"
         style={{
           opacity: isMain ? 0 : 1,
           transitionDuration: `${TRANSITION_MS}ms`,
@@ -38,14 +39,14 @@ export function LandingPage() {
         }}
       >
         <h1
-          className="font-display font-black leading-none tracking-tight transition-all ease-in-out"
+          className="font-display font-semibold leading-none tracking-tight transition-all ease-in-out"
           style={{
             fontSize: isMain ? "clamp(1.75rem, 5vw, 2.25rem)" : "clamp(4rem, 22vw, 11rem)",
-            color: isMain ? "var(--color-coral)" : "var(--color-cream)",
+            color: isMain ? "var(--color-orange)" : "var(--color-orange-light)",
             transitionDuration: `${TRANSITION_MS}ms`,
           }}
         >
-          Cityrr
+          {LOGO}
         </h1>
       </div>
 
@@ -58,15 +59,15 @@ export function LandingPage() {
         }}
       >
         <header className="mb-10 max-w-2xl">
-          <p className="text-sm font-medium uppercase tracking-widest text-coral/80">
+          <p className="text-sm font-semibold uppercase tracking-widest text-blue">
             City runs, curated
           </p>
-          <h2 className="mt-2 font-display text-3xl font-black leading-tight text-ink sm:text-4xl">
+          <h2 className="mt-2 font-display text-3xl font-semibold leading-tight text-blue-deep sm:text-4xl">
             Start on transit.
             <br />
             Finish with breakfast.
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-ink/65">
+          <p className="mt-4 text-base leading-relaxed text-blue/75">
             Discover urban running routes from 5K to 20K — each one begins at a
             public transport stop and ends at a great breakfast spot.
           </p>
@@ -74,12 +75,12 @@ export function LandingPage() {
 
         <section aria-label="Running routes">
           <div className="mb-6 flex flex-wrap items-center gap-3">
-            <span className="text-sm font-medium text-ink/50">Distance</span>
+            <span className="text-sm font-medium text-blue/50">Distance</span>
             {["5K", "10K", "15K", "20K"].map((band) => (
               <button
                 key={band}
                 type="button"
-                className="rounded-full border border-coral/20 bg-white px-4 py-1.5 text-sm font-medium text-ink/70 transition-colors hover:border-coral hover:text-coral"
+                className="rounded-full border border-blue/20 bg-white px-4 py-1.5 text-sm font-medium text-blue/70 transition-colors hover:border-orange hover:text-orange"
               >
                 {band}
               </button>
