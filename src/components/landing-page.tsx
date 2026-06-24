@@ -8,6 +8,7 @@ const INTRO_HOLD_MS = 2200;
 const TRANSITION_MS = 900;
 const LOGO = "Cityrr.";
 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
+const HEADER_HEIGHT = "4.5rem";
 
 export function LandingPage() {
   const logoRef = useRef<HTMLHeadingElement>(null);
@@ -90,15 +91,23 @@ export function LandingPage() {
         }}
       />
 
+      {!isIntro && (
+        <div
+          aria-hidden
+          className="fixed inset-x-0 top-0 z-40 border-b border-blue/10 bg-blue-light/95 backdrop-blur-sm"
+          style={{ height: HEADER_HEIGHT }}
+        />
+      )}
+
       <h1
         ref={logoRef}
         className="fixed z-50 font-display font-semibold leading-none tracking-tight whitespace-nowrap"
         style={{
-          top: isIntro ? "50%" : "1.5rem",
-          left: isIntro ? "50%" : "1.5rem",
+          top: isIntro ? "50%" : "1.25rem",
+          left: isIntro ? "50%" : "max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem))",
           fontSize: isIntro
             ? "clamp(4rem, 22vw, 11rem)"
-            : "clamp(1.75rem, 5vw, 2.25rem)",
+            : "clamp(1.5rem, 4vw, 1.875rem)",
           color: isIntro ? "var(--color-orange-light)" : "var(--color-orange)",
           transform: isIntro ? "translate(-50%, -50%)" : undefined,
           willChange: !contentVisible && !isIntro ? "transform" : undefined,
@@ -108,8 +117,9 @@ export function LandingPage() {
       </h1>
 
       <main
-        className="relative z-10 mx-auto max-w-6xl px-6 pb-16 pt-24"
+        className="relative z-10 mx-auto max-w-6xl px-6 pb-16"
         style={{
+          paddingTop: isIntro ? 0 : `calc(${HEADER_HEIGHT} + 2.5rem)`,
           opacity: contentVisible ? 1 : 0,
           transform: contentVisible ? "translateY(0)" : "translateY(12px)",
           transition: `opacity ${TRANSITION_MS}ms ${EASE}, transform ${TRANSITION_MS}ms ${EASE}`,
@@ -117,10 +127,10 @@ export function LandingPage() {
         }}
       >
         <header className="mb-10 max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-blue">
+          <p className="text-sm font-medium text-blue/70">
             City runs, curated
           </p>
-          <h2 className="mt-2 font-display text-3xl font-semibold leading-tight text-blue-deep sm:text-4xl">
+          <h2 className="mt-3 font-display text-3xl font-semibold leading-tight text-blue-deep sm:text-[2.125rem]">
             Start on transit.
             <br />
             Finish with breakfast.
@@ -132,13 +142,14 @@ export function LandingPage() {
         </header>
 
         <section aria-label="Running routes">
-          <div className="mb-6 flex flex-wrap items-center gap-3">
+          <div className="mb-6 flex flex-wrap items-center gap-2.5">
             <span className="text-sm font-medium text-blue/50">Distance</span>
             {["5K", "10K", "15K", "20K"].map((band) => (
               <button
                 key={band}
                 type="button"
-                className="rounded-full border border-blue/20 bg-white px-4 py-1.5 text-sm font-medium text-blue/70 transition-colors hover:border-orange hover:text-orange"
+                className="border border-blue/20 bg-white px-3.5 py-1.5 text-sm font-medium text-blue/70 transition-colors hover:border-orange hover:text-orange"
+                style={{ borderRadius: "var(--radius-btn)" }}
               >
                 {band}
               </button>

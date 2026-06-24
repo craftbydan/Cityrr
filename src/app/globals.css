@@ -9,6 +9,8 @@
   --color-ink: #0f2f55;
   --background: var(--color-blue-light);
   --foreground: var(--color-ink);
+  --radius-btn: 7px;
+  --radius-card: 11px;
 }
 
 @theme inline {
@@ -22,6 +24,8 @@
   --color-ink: #0f2f55;
   --font-sans: var(--font-pp-mori);
   --font-display: var(--font-pp-mori);
+  --radius-btn: 7px;
+  --radius-card: 11px;
 }
 
 body {

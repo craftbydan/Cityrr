@@ -14,6 +14,7 @@ export function RouteCard({ route, index = 0 }: { route: Route; index?: number }
   return (
     <article
       className={`group relative flex flex-col gap-5 bg-[#faf7f2] p-5 shadow-[0_2px_12px_rgba(15,47,85,0.06)] transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(15,47,85,0.1)] sm:p-6 ${tilt} hover:rotate-0`}
+      style={{ borderRadius: "var(--radius-card)" }}
     >
       <div
         aria-hidden
