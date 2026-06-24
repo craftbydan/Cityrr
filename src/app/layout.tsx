@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { ppMori } from "./fonts";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "Cityrr. — City runs from transit to breakfast",
+  title: "Cityrr. — Route Operations Dashboard",
   description:
-    "Discover urban running routes from 5K to 20K. Start at a public transport stop, run the city, finish at breakfast.",
+    "Operational route data for urban runners. Distance, elevation, transit hubs, and live route status.",
 };
 
 export default function RootLayout({
@@ -14,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${ppMori.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+    <html lang="en" className={`${inter.variable} h-full`}>
+      <body className="min-h-full font-sans antialiased">{children}</body>
     </html>
   );
 }
