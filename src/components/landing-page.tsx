@@ -145,9 +145,9 @@ export function LandingPage() {
             ))}
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {routes.map((route) => (
-              <RouteCard key={route.id} route={route} />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {routes.map((route, index) => (
+              <RouteCard key={route.id} route={route} index={index} />
             ))}
           </div>
         </section>
