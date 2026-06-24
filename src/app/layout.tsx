@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Syne } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -7,8 +7,14 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  weight: ["700", "800"],
+});
+
 export const metadata: Metadata = {
-  title: "Cityrr. — Route Operations Dashboard",
+  title: "Cityrr. — Route Operations",
   description:
     "Operational route data for urban runners. Distance, elevation, transit hubs, and live route status.",
 };
@@ -25,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
+    <html lang="en" className={`${inter.variable} ${syne.variable} h-full`}>
       <body className="min-h-full font-sans antialiased">{children}</body>
     </html>
   );

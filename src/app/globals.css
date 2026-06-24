@@ -1,15 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b0d10;
-  --foreground: #e8eaed;
-  --surface: #12151a;
-  --surface-2: #181c24;
-  --border: #2a303c;
-  --muted: #8b939e;
-  --accent: #4d9fff;
+  --background: #080808;
+  --foreground: #fafafa;
+  --surface: #111111;
+  --surface-2: #1a1a1a;
+  --border: #2e2e2e;
+  --border-bold: #fafafa;
+  --muted: #888888;
+  --blue: #2456ff;
+  --blue-bright: #4d74ff;
+  --orange: #ff4d1a;
+  --orange-bright: #ff6b3d;
+  --accent: var(--orange);
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --radius-sm: 4px;
+  --radius-md: 8px;
 }
 
 @theme inline {
@@ -18,9 +25,15 @@
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-border: var(--border);
+  --color-border-bold: var(--border-bold);
   --color-muted: var(--muted);
+  --color-blue: var(--blue);
+  --color-blue-bright: var(--blue-bright);
+  --color-orange: var(--orange);
+  --color-orange-bright: var(--orange-bright);
   --color-accent: var(--accent);
   --font-sans: var(--font-inter);
+  --font-display: var(--font-syne);
 }
 
 body {
@@ -37,4 +50,8 @@ body {
 
 .pb-safe {
   padding-bottom: var(--safe-bottom);
+}
+
+.font-display {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
 }

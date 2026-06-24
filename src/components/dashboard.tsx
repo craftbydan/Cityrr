@@ -56,135 +56,125 @@ export function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background text-foreground pb-safe">
-      <header className="sticky top-0 z-20 border-b border-border bg-surface/95 backdrop-blur-sm pt-safe">
-        <div className="flex items-center justify-between gap-2 px-3 py-2.5">
-          <div>
-            <p className="text-sm font-semibold tracking-tight">Cityrr.</p>
-            <p className="text-[10px] uppercase tracking-wider text-muted">Route Ops</p>
-          </div>
-          <div className="flex items-center gap-2 text-[11px] text-muted">
-            <span className="tabular-nums text-foreground">{filtered.length}</span>
-            <span className="text-border">·</span>
-            <span className="tabular-nums text-emerald-400">{stats.active}</span>
-            <span className="text-border">·</span>
-            <span className="tabular-nums text-amber-400">{stats.caution}</span>
+      {/* Bold studio header */}
+      <header className="sticky top-0 z-20 border-b-2 border-foreground bg-background pt-safe">
+        <div className="border-b-2 border-border bg-blue px-4 py-4">
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <h1 className="font-display text-[2.5rem] font-extrabold leading-[0.9] tracking-tight text-white">
+                Cityrr.
+              </h1>
+              <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-white/70">
+                Route Operations
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <div className="border-2 border-black bg-orange px-3 py-2 text-center" style={{ borderRadius: "var(--radius-sm)" }}>
+                <p className="font-display text-2xl font-extrabold leading-none tabular-nums text-black">{filtered.length}</p>
+                <p className="text-[9px] font-bold uppercase tracking-wider text-black/70">Routes</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="border-t border-border px-3 py-2">
+        {/* Stats strip */}
+        <div className="grid grid-cols-3 border-b-2 border-border">
+          <div className="border-r-2 border-border px-3 py-2.5">
+            <p className="font-display text-xl font-extrabold tabular-nums text-[#00c853]">{stats.active}</p>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Active</p>
+          </div>
+          <div className="border-r-2 border-border px-3 py-2.5">
+            <p className="font-display text-xl font-extrabold tabular-nums text-[#ffab00]">{stats.caution}</p>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Caution</p>
+          </div>
+          <div className="px-3 py-2.5">
+            <p className="font-display text-xl font-extrabold tabular-nums text-foreground">{routes.length}</p>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Total</p>
+          </div>
+        </div>
+
+        <div className="px-3 py-3">
           <input
             type="search"
-            placeholder="Search ID, route, city…"
+            placeholder="Search routes…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="min-h-[44px] w-full border border-border bg-surface-2 px-3 text-sm text-foreground placeholder:text-muted/60 focus:border-accent focus:outline-none"
-            style={{ borderRadius: "6px" }}
+            className="min-h-[48px] w-full border-2 border-foreground bg-surface px-4 text-sm font-medium text-foreground placeholder:text-muted focus:border-orange focus:outline-none"
+            style={{ borderRadius: "var(--radius-md)" }}
           />
         </div>
 
-        <div className="flex items-center gap-2 border-t border-border px-3 py-2">
+        <div className="flex items-stretch gap-2 border-t-2 border-border px-3 py-3">
           <button
             type="button"
             onClick={() => setFiltersOpen((v) => !v)}
-            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-2 border border-border bg-surface-2 px-3 text-xs font-medium text-foreground active:bg-surface"
-            style={{ borderRadius: "6px" }}
+            className={`inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 border-2 px-4 text-xs font-bold uppercase tracking-widest transition-colors ${
+              filtersOpen
+                ? "border-orange bg-orange text-black"
+                : "border-foreground bg-surface text-foreground"
+            }`}
+            style={{ borderRadius: "var(--radius-md)" }}
           >
             <IconFilter />
-            Filters
+            Filter
             {activeFilterCount > 0 && (
-              <span className="rounded-full bg-accent/20 px-1.5 py-0.5 text-[10px] text-accent">
+              <span className="flex h-5 w-5 items-center justify-center bg-black text-[10px] text-white" style={{ borderRadius: "var(--radius-sm)" }}>
                 {activeFilterCount}
               </span>
             )}
           </button>
-          <div className="flex gap-1 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex flex-1 gap-1.5 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {distanceBands.map((band, i) => (
               <button
                 key={band.label}
                 type="button"
                 onClick={() => setDistanceBand(i)}
-                className={`shrink-0 min-h-[44px] border px-3 text-xs transition-colors ${
+                className={`shrink-0 min-h-[48px] border-2 px-4 text-xs font-bold uppercase tracking-wider transition-colors ${
                   distanceBand === i
-                    ? "border-accent bg-accent/15 text-accent"
+                    ? "border-blue bg-blue text-white"
                     : "border-border bg-surface-2 text-muted"
                 }`}
-                style={{ borderRadius: "6px" }}
+                style={{ borderRadius: "var(--radius-md)" }}
               >
-                {band.label} km
+                {band.label}
               </button>
             ))}
           </div>
         </div>
 
         {filtersOpen && (
-          <div className="grid grid-cols-1 gap-2 border-t border-border bg-surface-2/80 px-3 py-3 sm:grid-cols-3">
-            <label className="flex flex-col gap-1 text-[11px] text-muted">
-              City
-              <select
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                className="min-h-[44px] border border-border bg-surface px-3 text-sm text-foreground focus:border-accent focus:outline-none"
-                style={{ borderRadius: "6px" }}
-              >
-                <option value="All">All cities</option>
-                {cities.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="flex flex-col gap-1 text-[11px] text-muted">
-              Terrain
-              <select
-                value={terrain}
-                onChange={(e) => setTerrain(e.target.value)}
-                className="min-h-[44px] border border-border bg-surface px-3 text-sm text-foreground focus:border-accent focus:outline-none"
-                style={{ borderRadius: "6px" }}
-              >
-                <option value="All">All terrain</option>
-                {terrains.map((t) => (
-                  <option key={t} value={t}>
-                    {t}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="flex flex-col gap-1 text-[11px] text-muted">
-              Tech difficulty
-              <select
-                value={difficulty}
-                onChange={(e) => setDifficulty(e.target.value)}
-                className="min-h-[44px] border border-border bg-surface px-3 text-sm text-foreground focus:border-accent focus:outline-none"
-                style={{ borderRadius: "6px" }}
-              >
-                <option value="All">All levels</option>
-                {difficulties.map((d) => (
-                  <option key={d} value={d}>
-                    {d}
-                  </option>
-                ))}
-              </select>
-            </label>
+          <div className="grid grid-cols-1 gap-3 border-t-2 border-border bg-surface-2 px-3 py-3 sm:grid-cols-3">
+            {[
+              { label: "City", value: city, setter: setCity, options: ["All", ...cities] },
+              { label: "Terrain", value: terrain, setter: setTerrain, options: ["All", ...terrains] },
+              { label: "Difficulty", value: difficulty, setter: setDifficulty, options: ["All", ...difficulties] },
+            ].map((f) => (
+              <label key={f.label} className="flex flex-col gap-1.5">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-orange">{f.label}</span>
+                <select
+                  value={f.value}
+                  onChange={(e) => f.setter(e.target.value)}
+                  className="min-h-[48px] border-2 border-foreground bg-background px-3 text-sm font-semibold focus:border-blue focus:outline-none"
+                  style={{ borderRadius: "var(--radius-md)" }}
+                >
+                  {f.options.map((o) => (
+                    <option key={o} value={o}>
+                      {o === "All" ? `All ${f.label.toLowerCase()}` : o}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ))}
           </div>
         )}
       </header>
 
-      <main className="px-3 py-3 lg:mx-auto lg:max-w-[1400px]">
-        <p className="mb-2 text-[11px] text-muted lg:hidden">
-          Tap a route for hubs, coordinates, and alerts.
-        </p>
-
-        <div className="mb-2 hidden text-[11px] text-muted lg:block">
-          Showing <span className="tabular-nums text-foreground">{filtered.length}</span> of{" "}
-          <span className="tabular-nums text-foreground">{routes.length}</span> routes
-        </div>
-
+      <main className="px-3 py-4 lg:mx-auto lg:max-w-[1400px]">
         <RouteList routes={filtered} />
         <RouteTable routes={filtered} />
 
         {filtered.length === 0 && (
-          <p className="mt-4 text-center text-sm text-muted">No routes match current filters.</p>
+          <p className="mt-6 text-center font-display text-lg font-bold text-muted">No routes match.</p>
         )}
       </main>
     </div>
