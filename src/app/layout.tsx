@@ -10,7 +10,8 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: "Cityrr. — MTA to coffee runs",
-  description: "Urban runs in New York. Start at the subway, finish at coffee.",
+  description:
+    "New York runs from subway to café. The run is technically the point. Coffee is the actual point.",
 };
 
 export const viewport = {

@@ -13,7 +13,7 @@ const distanceBands = [
   { label: "20K", min: 16, max: Infinity },
 ];
 
-export function Dashboard() {
+export function Dashboard({ showLogo = true }: { showLogo?: boolean }) {
   const [terrain, setTerrain] = useState<string>("All");
   const [distanceBand, setDistanceBand] = useState(0);
   const [search, setSearch] = useState("");
@@ -30,7 +30,9 @@ export function Dashboard() {
         !route.name.toLowerCase().includes(query) &&
         !route.neighborhood.toLowerCase().includes(query) &&
         !route.finishSpot.toLowerCase().includes(query) &&
-        !route.mtaStation.toLowerCase().includes(query)
+        !route.mtaStation.toLowerCase().includes(query) &&
+        !route.landmarks.some((landmark) => landmark.toLowerCase().includes(query)) &&
+        !route.note.toLowerCase().includes(query)
       ) {
         return false;
       }
@@ -41,12 +43,14 @@ export function Dashboard() {
   return (
     <div className="min-h-screen bg-background pb-safe">
       <header className="sticky top-0 z-20 bg-background/90 pt-safe backdrop-blur-md">
-        <div className="border-b border-border px-4 pb-4 pt-3">
-          <h1 className="font-display text-[2rem] font-semibold leading-none tracking-tight text-coral">
-            Cityrr.
-          </h1>
-          <p className="mt-2 max-w-[280px] text-sm leading-snug text-muted">
-            Swipe your MetroCard. Run the city. Finish with coffee.
+        <div className={`border-b border-border px-4 pb-4 ${showLogo ? "pt-3" : "pt-14"}`}>
+          {showLogo ? (
+            <h1 className="font-display text-[2rem] font-semibold leading-none tracking-tight text-coral">
+              Cityrr.
+            </h1>
+          ) : null}
+          <p className={`max-w-[300px] text-sm leading-snug text-muted ${showLogo ? "mt-2" : ""}`}>
+            Swipe your MetroCard. Run somewhere. Finish with coffee you didn&apos;t quite earn.
           </p>
         </div>
 
@@ -67,7 +71,7 @@ export function Dashboard() {
         <div className="space-y-3 px-4 py-3">
           <input
             type="search"
-            placeholder="Search neighborhood, café, station…"
+            placeholder="Neighborhood, café, station — pick your excuse…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="min-h-[48px] w-full border border-border bg-surface px-4 text-sm text-foreground placeholder:text-muted/70 focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/20"
@@ -109,13 +113,15 @@ export function Dashboard() {
 
       <main className="px-4 py-2">
         <p className="mb-3 text-xs text-muted">
-          {filtered.length} run{filtered.length === 1 ? "" : "s"} in New York
+          {filtered.length} way{filtered.length === 1 ? "" : "s"} to justify a $7 latte in New York
         </p>
 
         <RouteList routes={filtered} />
 
         {filtered.length === 0 && (
-          <p className="mt-8 text-center text-sm text-muted">No routes match — try another filter.</p>
+          <p className="mt-8 text-center text-sm text-muted">
+            Nothing matches. Try another filter. Or skip the run and get coffee anyway.
+          </p>
         )}
       </main>
     </div>

@@ -17,6 +17,7 @@ function RouteCard({ route }: { route: Route }) {
             <h2 className="font-display mt-0.5 text-xl font-semibold leading-tight text-navy">
               {route.name}
             </h2>
+            <p className="mt-1.5 text-sm leading-snug text-muted italic">{route.note}</p>
           </div>
           <div className="text-right">
             <p className="font-display text-2xl font-semibold leading-none tabular-nums text-coral">
@@ -30,6 +31,12 @@ function RouteCard({ route }: { route: Route }) {
           <span>{route.terrain}</span>
           <span>·</span>
           <span>+{route.elevationGainM}m</span>
+        </div>
+        <div className="mt-3">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Passes</p>
+          <p className="mt-1 text-sm leading-snug text-foreground/85">
+            {route.landmarks.join(" · ")}
+          </p>
         </div>
       </div>
 
@@ -53,12 +60,12 @@ function RouteCard({ route }: { route: Route }) {
 
           <div className="flex flex-1 flex-col justify-between gap-4 py-0.5">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Start</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Get off here</p>
               <p className="mt-0.5 font-semibold text-foreground">{route.mtaStation}</p>
               <p className="text-sm text-muted">{route.mtaLines}</p>
             </div>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Finish</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted">You&apos;ve earned this</p>
               <p className="mt-0.5 font-semibold text-foreground">{route.finishSpot}</p>
               <p className="text-sm text-muted">{route.finishType}</p>
             </div>
