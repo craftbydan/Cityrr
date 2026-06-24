@@ -42,7 +42,7 @@ export function Dashboard() {
     <div className="min-h-screen bg-background pb-safe">
       <header className="sticky top-0 z-20 bg-background/90 pt-safe backdrop-blur-md">
         <div className="border-b border-border px-4 pb-4 pt-3">
-          <h1 className="font-display text-[2rem] font-extrabold leading-none tracking-tight text-coral">
+          <h1 className="font-display text-[2rem] font-semibold leading-none tracking-tight text-coral">
             Cityrr.
           </h1>
           <p className="mt-2 max-w-[280px] text-sm leading-snug text-muted">

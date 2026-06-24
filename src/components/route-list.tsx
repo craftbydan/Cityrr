@@ -14,12 +14,12 @@ function RouteCard({ route }: { route: Route }) {
             <p className="text-xs font-semibold uppercase tracking-wider text-muted">
               {route.neighborhood}
             </p>
-            <h2 className="font-display mt-0.5 text-xl font-bold leading-tight text-navy">
+            <h2 className="font-display mt-0.5 text-xl font-semibold leading-tight text-navy">
               {route.name}
             </h2>
           </div>
           <div className="text-right">
-            <p className="font-display text-2xl font-extrabold leading-none tabular-nums text-coral">
+            <p className="font-display text-2xl font-semibold leading-none tabular-nums text-coral">
               {route.distanceKm}
               <span className="text-sm font-bold">km</span>
             </p>
