@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { IconFilter } from "@/components/icons";
+import { RouteList } from "@/components/route-list";
 import { RouteTable } from "@/components/route-table";
 import { routes, type Route, type Terrain, type TechnicalDifficulty } from "@/lib/routes";
 
@@ -10,10 +11,10 @@ const terrains: Terrain[] = ["Flat", "Mixed", "Hilly"];
 const difficulties: TechnicalDifficulty[] = ["Low", "Medium", "High"];
 const distanceBands = [
   { label: "All", min: 0, max: Infinity },
-  { label: "≤8 km", min: 0, max: 8 },
-  { label: "8–12 km", min: 8, max: 12 },
-  { label: "12–16 km", min: 12, max: 16 },
-  { label: "16+ km", min: 16, max: Infinity },
+  { label: "≤8", min: 0, max: 8 },
+  { label: "8–12", min: 8, max: 12 },
+  { label: "12–16", min: 12, max: 16 },
+  { label: "16+", min: 16, max: Infinity },
 ];
 
 export function Dashboard() {
@@ -22,6 +23,7 @@ export function Dashboard() {
   const [difficulty, setDifficulty] = useState<string>("All");
   const [distanceBand, setDistanceBand] = useState(0);
   const [search, setSearch] = useState("");
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const filtered = useMemo(() => {
     const band = distanceBands[distanceBand];
@@ -47,129 +49,142 @@ export function Dashboard() {
   const stats = useMemo(() => {
     const active = filtered.filter((r) => r.status === "Active").length;
     const caution = filtered.filter((r) => r.status === "Caution").length;
-    const avgElev = filtered.length
-      ? Math.round(filtered.reduce((s, r) => s + r.elevationGainM, 0) / filtered.length)
-      : 0;
-    return { active, caution, avgElev };
+    return { active, caution };
   }, [filtered]);
 
+  const activeFilterCount = [city, terrain, difficulty].filter((v) => v !== "All").length + (distanceBand > 0 ? 1 : 0);
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border bg-surface">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-3 py-2">
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-semibold tracking-tight text-foreground">Cityrr.</span>
-            <span className="hidden text-[10px] uppercase tracking-wider text-muted sm:inline">
-              Route Operations
-            </span>
+    <div className="min-h-screen bg-background text-foreground pb-safe">
+      <header className="sticky top-0 z-20 border-b border-border bg-surface/95 backdrop-blur-sm pt-safe">
+        <div className="flex items-center justify-between gap-2 px-3 py-2.5">
+          <div>
+            <p className="text-sm font-semibold tracking-tight">Cityrr.</p>
+            <p className="text-[10px] uppercase tracking-wider text-muted">Route Ops</p>
           </div>
-          <div className="flex items-center gap-3 text-[11px] text-muted">
-            <span>
-              <span className="tabular-nums text-foreground">{filtered.length}</span> routes
-            </span>
-            <span className="text-border">|</span>
-            <span>
-              <span className="tabular-nums text-emerald-400">{stats.active}</span> active
-            </span>
-            <span className="text-border">|</span>
-            <span>
-              <span className="tabular-nums text-amber-400">{stats.caution}</span> caution
-            </span>
+          <div className="flex items-center gap-2 text-[11px] text-muted">
+            <span className="tabular-nums text-foreground">{filtered.length}</span>
+            <span className="text-border">·</span>
+            <span className="tabular-nums text-emerald-400">{stats.active}</span>
+            <span className="text-border">·</span>
+            <span className="tabular-nums text-amber-400">{stats.caution}</span>
           </div>
         </div>
-      </header>
 
-      <main className="mx-auto max-w-[1400px] px-3 py-3">
-        <div className="mb-3 flex flex-col gap-2 border border-border bg-surface p-2 sm:flex-row sm:items-center sm:justify-between" style={{ borderRadius: "6px" }}>
-          <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider text-muted">
-            <IconFilter />
-            Filters
-          </div>
+        <div className="border-t border-border px-3 py-2">
           <input
             type="search"
-            placeholder="Search route ID, name, city…"
+            placeholder="Search ID, route, city…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full border border-border bg-surface-2 px-2 py-1 text-xs text-foreground placeholder:text-muted/60 focus:border-accent focus:outline-none sm:max-w-xs"
-            style={{ borderRadius: "4px" }}
+            className="min-h-[44px] w-full border border-border bg-surface-2 px-3 text-sm text-foreground placeholder:text-muted/60 focus:border-accent focus:outline-none"
+            style={{ borderRadius: "6px" }}
           />
         </div>
 
-        <div className="mb-3 flex flex-wrap gap-1.5">
-          <select
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="border border-border bg-surface-2 px-2 py-1 text-[11px] text-foreground focus:border-accent focus:outline-none"
-            style={{ borderRadius: "4px" }}
+        <div className="flex items-center gap-2 border-t border-border px-3 py-2">
+          <button
+            type="button"
+            onClick={() => setFiltersOpen((v) => !v)}
+            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-2 border border-border bg-surface-2 px-3 text-xs font-medium text-foreground active:bg-surface"
+            style={{ borderRadius: "6px" }}
           >
-            <option value="All">City: All</option>
-            {cities.map((c) => (
-              <option key={c} value={c}>
-                City: {c}
-              </option>
-            ))}
-          </select>
-          <select
-            value={terrain}
-            onChange={(e) => setTerrain(e.target.value)}
-            className="border border-border bg-surface-2 px-2 py-1 text-[11px] text-foreground focus:border-accent focus:outline-none"
-            style={{ borderRadius: "4px" }}
-          >
-            <option value="All">Terrain: All</option>
-            {terrains.map((t) => (
-              <option key={t} value={t}>
-                Terrain: {t}
-              </option>
-            ))}
-          </select>
-          <select
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-            className="border border-border bg-surface-2 px-2 py-1 text-[11px] text-foreground focus:border-accent focus:outline-none"
-            style={{ borderRadius: "4px" }}
-          >
-            <option value="All">Tech Difficulty: All</option>
-            {difficulties.map((d) => (
-              <option key={d} value={d}>
-                Tech: {d}
-              </option>
-            ))}
-          </select>
-          {distanceBands.map((band, i) => (
-            <button
-              key={band.label}
-              type="button"
-              onClick={() => setDistanceBand(i)}
-              className={`border px-2 py-1 text-[11px] transition-colors ${
-                distanceBand === i
-                  ? "border-accent bg-accent/15 text-accent"
-                  : "border-border bg-surface-2 text-muted hover:text-foreground"
-              }`}
-              style={{ borderRadius: "4px" }}
-            >
-              {band.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="mb-2 flex items-center justify-between text-[11px] text-muted">
-          <span>
-            Showing <span className="tabular-nums text-foreground">{filtered.length}</span> of{" "}
-            <span className="tabular-nums text-foreground">{routes.length}</span> routes
-            {filtered.length > 0 && (
-              <>
-                {" "}
-                · avg elevation{" "}
-                <span className="tabular-nums text-foreground">+{stats.avgElev}m</span>
-              </>
+            <IconFilter />
+            Filters
+            {activeFilterCount > 0 && (
+              <span className="rounded-full bg-accent/20 px-1.5 py-0.5 text-[10px] text-accent">
+                {activeFilterCount}
+              </span>
             )}
-          </span>
+          </button>
+          <div className="flex gap-1 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {distanceBands.map((band, i) => (
+              <button
+                key={band.label}
+                type="button"
+                onClick={() => setDistanceBand(i)}
+                className={`shrink-0 min-h-[44px] border px-3 text-xs transition-colors ${
+                  distanceBand === i
+                    ? "border-accent bg-accent/15 text-accent"
+                    : "border-border bg-surface-2 text-muted"
+                }`}
+                style={{ borderRadius: "6px" }}
+              >
+                {band.label} km
+              </button>
+            ))}
+          </div>
         </div>
 
+        {filtersOpen && (
+          <div className="grid grid-cols-1 gap-2 border-t border-border bg-surface-2/80 px-3 py-3 sm:grid-cols-3">
+            <label className="flex flex-col gap-1 text-[11px] text-muted">
+              City
+              <select
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                className="min-h-[44px] border border-border bg-surface px-3 text-sm text-foreground focus:border-accent focus:outline-none"
+                style={{ borderRadius: "6px" }}
+              >
+                <option value="All">All cities</option>
+                {cities.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex flex-col gap-1 text-[11px] text-muted">
+              Terrain
+              <select
+                value={terrain}
+                onChange={(e) => setTerrain(e.target.value)}
+                className="min-h-[44px] border border-border bg-surface px-3 text-sm text-foreground focus:border-accent focus:outline-none"
+                style={{ borderRadius: "6px" }}
+              >
+                <option value="All">All terrain</option>
+                {terrains.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex flex-col gap-1 text-[11px] text-muted">
+              Tech difficulty
+              <select
+                value={difficulty}
+                onChange={(e) => setDifficulty(e.target.value)}
+                className="min-h-[44px] border border-border bg-surface px-3 text-sm text-foreground focus:border-accent focus:outline-none"
+                style={{ borderRadius: "6px" }}
+              >
+                <option value="All">All levels</option>
+                {difficulties.map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        )}
+      </header>
+
+      <main className="px-3 py-3 lg:mx-auto lg:max-w-[1400px]">
+        <p className="mb-2 text-[11px] text-muted lg:hidden">
+          Tap a route for hubs, coordinates, and alerts.
+        </p>
+
+        <div className="mb-2 hidden text-[11px] text-muted lg:block">
+          Showing <span className="tabular-nums text-foreground">{filtered.length}</span> of{" "}
+          <span className="tabular-nums text-foreground">{routes.length}</span> routes
+        </div>
+
+        <RouteList routes={filtered} />
         <RouteTable routes={filtered} />
 
         {filtered.length === 0 && (
-          <p className="mt-3 text-center text-xs text-muted">No routes match current filters.</p>
+          <p className="mt-4 text-center text-sm text-muted">No routes match current filters.</p>
         )}
       </main>
     </div>

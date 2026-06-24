@@ -1,32 +1,7 @@
 import type { ReactNode } from "react";
-import type { Route, RouteStatus } from "@/lib/routes";
+import type { Route } from "@/lib/routes";
 import { IconAlert, IconDistance, IconElevation, IconTime } from "@/components/icons";
-
-function StatusBadge({ status }: { status: RouteStatus }) {
-  const styles = {
-    Active: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
-    Caution: "bg-amber-500/15 text-amber-400 border-amber-500/30",
-    Restricted: "bg-red-500/15 text-red-400 border-red-500/30",
-  } as const;
-
-  return (
-    <span
-      className={`inline-flex items-center border px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${styles[status]}`}
-      style={{ borderRadius: "4px" }}
-    >
-      {status}
-    </span>
-  );
-}
-
-function MetaTag({ label, value }: { label: string; value: string }) {
-  return (
-    <span className="inline-flex items-center gap-1 border border-border bg-surface-2 px-1.5 py-0.5 text-[10px] text-muted">
-      <span className="text-muted/70">{label}:</span>
-      <span className="text-foreground">{value}</span>
-    </span>
-  );
-}
+import { MetaTag, StatusBadge } from "@/components/route-ui";
 
 function Metric({
   icon,
@@ -47,7 +22,10 @@ function Metric({
 
 export function RouteTable({ routes }: { routes: Route[] }) {
   return (
-    <div className="overflow-x-auto border border-border bg-surface" style={{ borderRadius: "6px" }}>
+    <div
+      className="hidden overflow-x-auto border border-border bg-surface lg:block"
+      style={{ borderRadius: "6px" }}
+    >
       <table className="w-full min-w-[1100px] border-collapse text-left text-xs">
         <thead>
           <tr className="border-b border-border bg-surface-2 text-[10px] font-medium uppercase tracking-wider text-muted">
@@ -96,10 +74,6 @@ export function RouteTable({ routes }: { routes: Route[] }) {
                   <MetaTag label="Terrain" value={route.terrain} />
                   <MetaTag label="Elev" value={`+${route.elevationGainM}m`} />
                   <MetaTag label="Tech" value={route.technicalDifficulty} />
-                </div>
-                <div className="mt-1 flex items-center gap-1 text-[11px] text-muted">
-                  <IconElevation className="shrink-0" />
-                  <span className="tabular-nums">{route.elevationGainM}m gain</span>
                 </div>
               </td>
               <td className="px-2 py-2 align-top">

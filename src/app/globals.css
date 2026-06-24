@@ -8,6 +8,8 @@
   --border: #2a303c;
   --muted: #8b939e;
   --accent: #4d9fff;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 @theme inline {
@@ -26,4 +28,13 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   font-feature-settings: "tnum" 1;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pt-safe {
+  padding-top: var(--safe-top);
+}
+
+.pb-safe {
+  padding-bottom: var(--safe-bottom);
 }

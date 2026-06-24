@@ -13,6 +13,12 @@ export const metadata: Metadata = {
     "Operational route data for urban runners. Distance, elevation, transit hubs, and live route status.",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover" as const,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
