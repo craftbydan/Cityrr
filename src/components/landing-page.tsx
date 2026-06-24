@@ -1,61 +1,119 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { RouteCard } from "@/components/route-card";
 import { routes } from "@/lib/routes";
 
 const INTRO_HOLD_MS = 2200;
 const TRANSITION_MS = 900;
 const LOGO = "Cityrr.";
+const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 export function LandingPage() {
+  const logoRef = useRef<HTMLHeadingElement>(null);
+  const firstRectRef = useRef<DOMRect | null>(null);
+  const shouldAnimateRef = useRef(false);
+
   const [phase, setPhase] = useState<"intro" | "main">("intro");
+  const [contentVisible, setContentVisible] = useState(false);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setPhase("main"), INTRO_HOLD_MS);
-    return () => window.clearTimeout(timer);
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (reducedMotion) {
+      setPhase("main");
+      setContentVisible(true);
+      return;
+    }
+
+    const holdTimer = window.setTimeout(() => {
+      const logo = logoRef.current;
+      if (!logo) {
+        setPhase("main");
+        setContentVisible(true);
+        return;
+      }
+
+      firstRectRef.current = logo.getBoundingClientRect();
+      shouldAnimateRef.current = true;
+      setPhase("main");
+    }, INTRO_HOLD_MS);
+
+    return () => window.clearTimeout(holdTimer);
   }, []);
 
-  const isMain = phase === "main";
+  useLayoutEffect(() => {
+    if (phase !== "main" || !shouldAnimateRef.current) return;
+
+    const logo = logoRef.current;
+    const first = firstRectRef.current;
+    if (!logo || !first) return;
+
+    shouldAnimateRef.current = false;
+
+    const last = logo.getBoundingClientRect();
+    const deltaX = first.left - last.left;
+    const deltaY = first.top - last.top;
+    const scaleX = first.width / last.width;
+    const scaleY = first.height / last.height;
+
+    logo.style.transformOrigin = "top left";
+    logo.style.transition = "none";
+    logo.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scaleX}, ${scaleY})`;
+
+    requestAnimationFrame(() => {
+      logo.style.transition = `transform ${TRANSITION_MS}ms ${EASE}, color ${TRANSITION_MS}ms ease`;
+      logo.style.transform = "translate3d(0, 0, 0) scale(1)";
+
+      window.setTimeout(() => {
+        logo.style.transition = "";
+        logo.style.transform = "";
+        logo.style.transformOrigin = "";
+        setContentVisible(true);
+      }, TRANSITION_MS);
+    });
+  }, [phase]);
+
+  const isIntro = phase === "intro";
+  const showSplash = isIntro || !contentVisible;
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-blue-light">
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-0 z-30 bg-blue transition-opacity ease-out"
+        className="pointer-events-none fixed inset-0 z-30 bg-blue"
         style={{
-          opacity: isMain ? 0 : 1,
-          transitionDuration: `${TRANSITION_MS}ms`,
+          opacity: showSplash ? 1 : 0,
+          transition: `opacity ${TRANSITION_MS}ms ${EASE}`,
         }}
       />
 
-      <div
-        className="fixed z-50 ease-in-out"
+      <h1
+        ref={logoRef}
+        className="fixed z-50 font-display font-semibold leading-none tracking-tight whitespace-nowrap"
         style={{
-          top: isMain ? "1.5rem" : "50%",
-          left: isMain ? "1.5rem" : "50%",
-          transform: isMain ? "translate(0, 0)" : "translate(-50%, -50%)",
-          transition: `top ${TRANSITION_MS}ms ease-in-out, left ${TRANSITION_MS}ms ease-in-out, transform ${TRANSITION_MS}ms ease-in-out`,
+          top: isIntro ? "50%" : "1.5rem",
+          left: isIntro ? "50%" : "1.5rem",
+          fontSize: isIntro
+            ? "clamp(4rem, 22vw, 11rem)"
+            : "clamp(1.75rem, 5vw, 2.25rem)",
+          color: isIntro ? "var(--color-orange-light)" : "var(--color-orange)",
+          transform: isIntro ? "translate(-50%, -50%)" : undefined,
+          willChange: !contentVisible && !isIntro ? "transform" : undefined,
         }}
       >
-        <h1
-          className="font-display font-semibold leading-none tracking-tight transition-all ease-in-out"
-          style={{
-            fontSize: isMain ? "clamp(1.75rem, 5vw, 2.25rem)" : "clamp(4rem, 22vw, 11rem)",
-            color: isMain ? "var(--color-orange)" : "var(--color-orange-light)",
-            transitionDuration: `${TRANSITION_MS}ms`,
-          }}
-        >
-          {LOGO}
-        </h1>
-      </div>
+        {LOGO}
+      </h1>
 
       <main
-        className="relative z-10 mx-auto max-w-6xl px-6 pb-16 ease-out"
+        className="relative z-10 mx-auto max-w-6xl px-6 pb-16 pt-24"
         style={{
-          paddingTop: isMain ? "6.5rem" : "100vh",
-          opacity: isMain ? 1 : 0,
-          transition: `opacity ${TRANSITION_MS}ms ease-out ${isMain ? "200ms" : "0ms"}, padding-top ${TRANSITION_MS}ms ease-in-out`,
+          opacity: contentVisible ? 1 : 0,
+          transform: contentVisible ? "translateY(0)" : "translateY(12px)",
+          transition: `opacity ${TRANSITION_MS}ms ${EASE}, transform ${TRANSITION_MS}ms ${EASE}`,
+          pointerEvents: contentVisible ? "auto" : "none",
         }}
       >
         <header className="mb-10 max-w-2xl">
