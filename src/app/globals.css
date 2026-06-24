@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #080808;
-  --foreground: #fafafa;
-  --surface: #111111;
-  --surface-2: #1a1a1a;
-  --border: #2e2e2e;
-  --border-bold: #fafafa;
-  --muted: #888888;
-  --blue: #2456ff;
-  --blue-bright: #4d74ff;
-  --orange: #ff4d1a;
-  --orange-bright: #ff6b3d;
-  --accent: var(--orange);
+  --background: #f3ebe0;
+  --foreground: #2a2118;
+  --surface: #fffaf5;
+  --surface-2: #f8f0e6;
+  --border: #e2d5c4;
+  --muted: #7a6f62;
+  --coral: #e0634a;
+  --coral-deep: #c94e36;
+  --navy: #1e3348;
+  --mta: #f5c518;
+  --coffee: #6b4c35;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
 }
 
 @theme inline {
@@ -25,14 +25,13 @@
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-border: var(--border);
-  --color-border-bold: var(--border-bold);
   --color-muted: var(--muted);
-  --color-blue: var(--blue);
-  --color-blue-bright: var(--blue-bright);
-  --color-orange: var(--orange);
-  --color-orange-bright: var(--orange-bright);
-  --color-accent: var(--accent);
-  --font-sans: var(--font-inter);
+  --color-coral: var(--coral);
+  --color-coral-deep: var(--coral-deep);
+  --color-navy: var(--navy);
+  --color-mta: var(--mta);
+  --color-coffee: var(--coffee);
+  --font-sans: var(--font-dm-sans);
   --font-display: var(--font-syne);
 }
 
@@ -40,7 +39,6 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
-  font-feature-settings: "tnum" 1;
   -webkit-tap-highlight-color: transparent;
 }
 
