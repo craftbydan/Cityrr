@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM AI</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">DOM AI</div>
+      <span class="badge">GPT-5.4 nano</span>
+    </header>
+
+    <section class="settings" id="settings">
+      <label for="apiKey">OpenAI API Key</label>
+      <div class="row">
+        <input
+          type="password"
+          id="apiKey"
+          placeholder="sk-..."
+          autocomplete="off"
+        />
+        <button id="saveKey" class="btn secondary">Save</button>
+      </div>
+      <p class="hint" id="keyStatus">API key not set</p>
+    </section>
+
+    <section class="chat" id="chat">
+      <div class="messages" id="messages"></div>
+    </section>
+
+    <section class="composer">
+      <textarea
+        id="goal"
+        rows="2"
+        placeholder="e.g. Click the Sign in button"
+      ></textarea>
+      <div class="actions">
+        <button id="pickBtn" class="btn secondary" title="Click an element on the page">
+          Pick
+        </button>
+        <button id="runBtn" class="btn primary">Run</button>
+      </div>
+    </section>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
